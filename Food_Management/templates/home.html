@@ -1,0 +1,131 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Home - FoodShare{% endblock %}
+
+{% block content %}
+<!-- Full-screen Hero Carousel -->
+<section class="slider_section" style="min-height:100vh;">
+<div id="customCarousel1" class="carousel slide" data-ride="carousel" data-interval="5000">
+
+    <div class="carousel-inner">
+
+      <!-- Slide 1 -->
+      <div class="carousel-item active" style="background-image: url('{% static 'images/food-banner.jpg' %}');">
+        <div class="overlay"></div>
+        <div class="container">
+          <div class="detail-box text-center">
+            <h1>Reduce Waste,<br> Feed the Hungry</h1>
+            <p>FoodShare connects restaurants with NGOs to redistribute surplus food and fight hunger.</p>
+            {% comment %} <a href="/auth/signup/" class="btn1">Get Started</a> {% endcomment %}
+            <a href="{% url 'get_started' %}" class="btn1">Get Started</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="carousel-item" style="background-image: url('{% static 'images/food-banner2.jpg' %}');">
+        <div class="overlay"></div>
+        <div class="container">
+          <div class="detail-box text-center">
+            <h1>Join Hands,<br> Make a Difference</h1>
+            <p>Collaborate with us to bring food to those in need — one donation at a time.</p>
+            {% comment %} <a href="/auth/signup/" class="btn1">Get Started</a> {% endcomment %}
+            <a href="{% url 'get_started' %}" class="btn1">Get Started</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#customCarousel1" data-slide-to="0" class="active"></li>
+      <li data-target="#customCarousel1" data-slide-to="1"></li>
+    </ol>
+
+    <!-- Controls -->
+    <a class="carousel-control-prev" href="#customCarousel1" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    </a>
+    <a class="carousel-control-next" href="#customCarousel1" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    </a>
+  </div>
+</section>
+
+
+<!-- About Us Section -->
+<section class="about_us_section py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      
+      <!-- Left side: Map / Image -->
+      <div class="col-md-6 text-center">
+        <img src="{% static 'images/map.png' %}" alt="FoodShare Impact Map" class="img-fluid about-map">
+      </div>
+      
+      <!-- Right side: About text -->
+      <div class="col-md-6">
+        <div class="about-content">
+          <h2 class="section-title">About <span>FoodShare</span></h2>
+          <p>
+            At FoodShare, we are committed to reducing food waste and fighting hunger by connecting donors and NGOs. 
+            Our platform streamlines the donation process, ensuring surplus food reaches those in need quickly and safely.
+          </p>
+          <p>
+            Since our inception, we have collaborated with numerous restaurants and non-profit organizations to impact thousands of lives. 
+            By fostering a network of care and support, we aim to build a future where no one goes to bed hungry.
+          </p>
+          <p>
+            We currently operate in multiple states across India, with a vision to expand nationwide, 
+            empowering communities and bringing hope to those who need it most.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Features Section -->
+<section class="about_section layout_padding">
+  <div class="container">
+    <div class="heading_container heading_center mb-5">
+      <h2>Why Choose <span>FoodShare?</span></h2>
+    </div>
+    <div class="row">
+      <!-- Card 1 -->
+      <div class="col-md-4">
+        <div class="feature-card">
+          <img src="{% static 'images/donate-food.jpg' %}" alt="Donate Food" class="img-fluid card-img">
+          <div class="card-body">
+            <h5>Donate Excess Food</h5>
+            <p>Donors can quickly donate surplus food with just a few clicks on our platform.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="col-md-4">
+        <div class="feature-card">
+          <img src="{% static 'images/claim-Food.png' %}" alt="NGOs Claim" class="img-fluid card-img">
+          <div class="card-body">
+            <h5>NGOs Can Claim</h5>
+            <p>NGOs can easily view and claim nearby food donations in real-time.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="col-md-4">
+        <div class="feature-card">
+          <img src="{% static 'images/Tracking.jpg' %}" alt="Tracking" class="img-fluid card-img">
+          <div class="card-body">
+            <h5>Track your Donation</h5>
+            <p>Track donations, pickups, and history to ensure full transparency in the process.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/my_claims.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>My Claimed Donations</h2>
+
+{% if claimed_donations %}
+    <div class="donation-list">
+    {% for d in claimed_donations %}
+        <div class="donation-card">
+            {% if d.photo %}
+                <img src="{{ d.photo.url }}" alt="Food Image">
+            {% else %}
+                <img src="{% static 'images/placeholder.png' %}" alt="No Image">
+            {% endif %}
+            <div class="donation-info">
+                <h3>{{ d.food_name }}</h3>
+                <p><strong>Quantity:</strong> {{ d.quantity }}</p>
+                <p><strong>Pickup Address:</strong> {{ d.location }}</p>
+                <p><strong>Restaurant:</strong> {{ d.restaurant.username }}</p>
+                <p><strong>Expires At:</strong> {{ d.expiry_time }}</p>
+                <p><strong>Phone Number:</strong> {{ d.phone_number }}</p>
+                {% if d.delivered %}
+                <p style="color: green;"><strong>✅ Delivered</strong></p>
+                {% if d.delivery_photo %}
+                    <img src="{{ d.delivery_photo.url }}" alt="Delivery Proof" width="200">
+                {% endif %}
+                {% else %}
+                    <a href="{% url 'mark-as-delivered' d.id %}" class="deliver-button">Mark as Delivered</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% else %}
+    <p>You haven't claimed any donations yet.</p>
+{% endif %}
+{% endblock %}

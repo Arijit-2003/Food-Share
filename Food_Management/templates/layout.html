@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}FoodShare Platform{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <!-- Feane CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}"> 
+    <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+
+
+<body>
+    <!-- Navbar -->
+    {% include 'partials/navbar.html' %}
+
+    <!-- Main Content -->
+    <main role="main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    {% include 'partials/footer.html' %}
+
+    <!-- Feane JS -->
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
