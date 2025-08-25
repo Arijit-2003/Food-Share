@@ -1,5 +1,5 @@
 # Food-Share
-📌 Overview
+📌 Overview: 
 Food Share is a platform that connects food donors with NGOs and needy people. The goal is to reduce food wastage by enabling restaurants, households, and organizations to donate excess food safely and efficiently.
 
 ✨ Features
