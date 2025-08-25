@@ -25,15 +25,14 @@ Food Share is a platform that connects food donors with NGOs and needy people. T
 
 🛠️ Tech Stack
 
-Frontend: React.js (or HTML/CSS/JS if not React)
+Backend Framework: Django (Python)
 
-Backend: Node.js + Express / Django (whichever you used)
+Database: SQLite (default) / MySQL / PostgreSQL
 
-Database: MongoDB / MySQL / PostgreSQL
+Frontend: Django Templates (customized with HTML, CSS, Bootstrap)
 
-Authentication: JWT / Django Auth
+Authentication: Django Auth System
 
-Hosting: (if hosted, e.g., Heroku, Render, or Vercel)
 
 📂 Project Structure (Example)
 FoodShare/
