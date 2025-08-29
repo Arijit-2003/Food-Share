@@ -5,24 +5,25 @@ Django settings for Food_Management project.
 import os
 import dj_database_url
 from pathlib import Path
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # -------------------------
 # Security
 # -------------------------
-SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret")   # override in Render
-DEBUG = os.getenv("DEBUG", "True") == "True"
+SECRET_KEY = config("SECRET_KEY", default="dev-secret")
+DEBUG = config("DEBUG", default=True, cast=bool)
 
-# Allow hosts from env (Render sets service URL)
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="*").split(",")
 
-# CSRF trusted origins (important for admin login with DEBUG=False)
-csrf_env = os.getenv("CSRF_TRUSTED_ORIGINS")
-if csrf_env:
-    CSRF_TRUSTED_ORIGINS = csrf_env.split(",")
+# For Render: CSRF trusted origins
+CSRF_TRUSTED_ORIGINS = [
+    f"https://{host}"
+    for host in ALLOWED_HOSTS
+    if host not in ("127.0.0.1", "localhost")
+]
 
-# Recognize https behind Render's proxy
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # -------------------------
@@ -35,9 +36,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     # your apps
     "userauth",
     "main",
+
+    # Cloudinary
+    "cloudinary",
+    "cloudinary_storage",
 ]
 
 MIDDLEWARE = [
@@ -73,12 +79,11 @@ WSGI_APPLICATION = "Food_Management.wsgi.application"
 # -------------------------
 # Database
 # -------------------------
-# Use Postgres if DATABASE_URL exists, else fallback to SQLite
 DATABASES = {
     "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        default=config("DATABASE_URL", default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
         conn_max_age=600,
-        ssl_require=False
+        ssl_require=not DEBUG,   # Require SSL only in production
     )
 }
 
@@ -101,22 +106,23 @@ USE_I18N = True
 USE_TZ = True
 
 # -------------------------
-# Static files
+# Static & Media
 # -------------------------
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# WhiteNoise storage
 STORAGES = {
+    # Static files storage with WhiteNoise
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    }
+    },
+    # Media files storage with Cloudinary
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
 }
 
-# -------------------------
-# Media files
-# -------------------------
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
@@ -125,3 +131,37 @@ MEDIA_ROOT = BASE_DIR / "media"
 # -------------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "userauth.CustomUser"
+
+# -------------------------
+# Cloudinary Config
+# -------------------------
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": config("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": config("CLOUDINARY_API_KEY"),
+    "API_SECRET": config("CLOUDINARY_API_SECRET"),
+}
+
+# -------------------------
+# Security Headers (production only)
+# -------------------------
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+# -------------------------
+# Logging (to see logs on Render)
+# -------------------------
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {"class": "logging.StreamHandler"},
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
+}
