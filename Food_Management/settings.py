@@ -15,9 +15,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY", default="dev-secret")
 DEBUG = config("DEBUG", default=True, cast=bool)
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="*").split(",")
+# ✅ Allow multiple hosts via env var, fallback to localhost
+ALLOWED_HOSTS = config(
+    "ALLOWED_HOSTS",
+    default="localhost,127.0.0.1,food-share-2lrc.onrender.com"
+).split(",")
 
-# For Render: CSRF trusted origins
+# ✅ Render requires CSRF trusted origins for POST requests
 CSRF_TRUSTED_ORIGINS = [
     f"https://{host}"
     for host in ALLOWED_HOSTS
