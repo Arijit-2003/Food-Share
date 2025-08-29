@@ -1,1 +1,1 @@
-web: gunicorn Food_Management.wsgi
+web: gunicorn Food_Management.wsgi:application
