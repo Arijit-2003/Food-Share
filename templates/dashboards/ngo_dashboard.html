@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/ngo_dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h2>NGO Dashboard</h2>
+    <p>Welcome, {{ user.username }}! You can view and claim available food donations here.</p>
+</div>
+
+<!-- Delivered Donations Gallery -->
+<div class="delivered-gallery">
+    <h3>🎉 Delivered Donations Gallery</h3>
+
+    {% if delivered_donations %}
+    <div class="gallery-grid">
+        {% for donation in delivered_donations %}
+        <div class="gallery-card">
+           {% if donation.delivery_photo %}
+                <div class="photo-card">
+                    <img src="{{ donation.delivery_photo.url }}" alt="Delivery Photo">
+                    <p class="timestamp">{{ donation.updated_at|date:"M d, Y H:i A" }}</p>
+                    <p class="greeting">Thank you for your kind work ❤️</p>
+                </div>
+            {% else %}
+                <p>No photo uploaded for this donation yet.</p>
+            {% endif %}
+                   
+            <div class="caption">
+                <h4>{{ donation.food_name }}</h4>
+                <p><strong>Delivered On:</strong> {{ donation.delivered_at|date:"M d, Y H:i" }}</p>
+                <p>Thank you {{ user.username }} for making someone’s day better! 🙌</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No deliveries marked yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

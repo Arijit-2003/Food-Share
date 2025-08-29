@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/delivery.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="delivery-form-container">
+  <div class="delivery-form-card">
+    <h2>Confirm Delivery for <span>{{ donation.food_name }}</span></h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-fields">
+        {{ form.as_p }}
+      </div>
+      <button type="submit" class="btn-submit">Submit Delivery</button>
+    </form>
+    <a href="{% url 'my-claims' %}" class="btn-back">← Back</a>
+  </div>
+</div>
+{% endblock %}
